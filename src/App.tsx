@@ -1,10 +1,12 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
-import { ChakraProvider, Flex, Stack, Heading, Text, Button, HStack, Box} from '@chakra-ui/react';
+import { ChakraProvider, Flex, Stack, Heading, Text, Button, HStack, Box, IconButton} from '@chakra-ui/react';
 import {chunk, shuffle, State, Options, difficultyColours} from './utils/utils';
 import { SEP_9 } from './utils/games';
 import useMethods from 'use-methods';
+import {TbRectangleVerticalFilled} from 'react-icons/tb'
+import {BsFillPersonFill} from 'react-icons/bs'
 
 const methods = (state: State) => {
   return {
@@ -41,7 +43,7 @@ const methods = (state: State) => {
         state.activeItems = [];
 
         if (state.mistakes === 3) {
-          state.complete = [...state.incomplete]
+          state.complete = state.complete.concat(state.incomplete);
           state.incomplete = [];
           state.items = [];
         }
@@ -101,7 +103,14 @@ function App() {
           </Stack>
 
         <HStack align='baseline'>
-          <Text> Mistakes Made: {game.mistakes}</Text>
+          <Text> Mistakes:</Text> 
+          {[...Array(3 - game.mistakes)].map(() =>
+            <BsFillPersonFill color='grey'/>
+          )}
+          {[...Array(game.mistakes)].map(() =>
+           <TbRectangleVerticalFilled color='red'/>
+          )}
+
         </HStack>
         <HStack spacing={4}>
           <Button className='action-button' onClick={game.shuffle}>

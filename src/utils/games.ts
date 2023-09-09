@@ -9,7 +9,7 @@ export const SEP_9: Group[] = [
   {
     category: 'Liverpool',
     items: ['Salah', 'Gerrard', 'Torres', 'Owen'],
-    difficulty: 1
+    difficulty: 2
   },
   {
     category: 'Chelsea',

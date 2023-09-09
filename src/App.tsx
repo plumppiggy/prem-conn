@@ -1,6 +1,7 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
+import './anim.css';
 import { ChakraProvider, Flex, Stack, Heading, Text, Button, HStack, Box, IconButton} from '@chakra-ui/react';
 import {chunk, shuffle, State, Options, difficultyColours} from './utils/utils';
 import { SEP_9 } from './utils/games';
@@ -11,6 +12,7 @@ import {BsFillPersonFill} from 'react-icons/bs'
 const methods = (state: State) => {
   return {
     toggleActive(item : string) {
+      state.wiggleItems = [];
       if (state.activeItems.includes(item)) {
         state.activeItems = state.activeItems.filter(i => i !== item);
       } else if (state.activeItems.length < 4) {
@@ -39,6 +41,9 @@ const methods = (state: State) => {
         state.activeItems = [];
       } else {
         // TODO: Make the wiggle animation
+        console.log("hello")
+        state.wiggleItems = state.activeItems;
+        console.log(state.wiggleItems);
         state.mistakes += 1;
         state.activeItems = [];
 
@@ -58,7 +63,8 @@ const useGame = (options: Options) => {
     complete: [],
     items: shuffle(options.groups.flatMap((g) => g.items)),
     activeItems: [],
-    mistakes: 0
+    mistakes: 0,
+    wiggleItems: []
   };
 
   const [state, finish] = useMethods(methods, initState);
@@ -93,7 +99,7 @@ function App() {
             <>
               <HStack>
                 {row.map((item) => (
-                  <Button className='item-button' _active={{ bg:'#48454d', color:'white' }} onClick={() => game.toggleActive(item)} isActive={game.activeItems.includes(item)}>
+                    <Button className={game.wiggleItems.includes(item) ? 'item-button anim' : 'item-button'} _active={{ bg:'#48454d', color:'white' }} onClick={() => game.toggleActive(item)} isActive={game.activeItems.includes(item)}>
                     {item}
                   </Button>
               ))}

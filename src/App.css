@@ -22,6 +22,15 @@
   text-transform: uppercase;
 }
 
+@media screen and (max-width: 500px) {
+  .item-button {
+    width: 80px;
+    font-size: 11px !important;
+  }
+}
+
+
+
 .action-button {
   color: aliceblue;
 }

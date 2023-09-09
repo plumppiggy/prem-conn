@@ -85,8 +85,7 @@ function App() {
   return (
     <>
     <ChakraProvider>
-      <Flex h ='100vh' w = '100vw' align = 'center' justify='center'>
-
+      <Flex h ='100%' w = '100%' align = 'center' justify='center'>
         <Stack spacing={4}>
           <HStack>
             <Heading>
@@ -104,7 +103,7 @@ function App() {
           </HStack>
           
 
-          <Stack>
+          <Stack style={{alignItems:'center'}}>
             {game.complete.map((group) => (
               <Stack className='done-group' bg={difficultyColours(group.difficulty)}>
                 <Text className='done-category'>{group.category}</Text>
@@ -117,7 +116,7 @@ function App() {
               <HStack>
                 {row.map((item) => (
                     <Button className={game.wiggleItems.includes(item) ? 'item-button anim' : 'item-button'} _active={{ bg:'#48454d', color:'white' }} onClick={() => game.toggleActive(item)} isActive={game.activeItems.includes(item)}>
-                    {item}
+                      {item}
                   </Button>
               ))}
               </HStack>
@@ -125,7 +124,7 @@ function App() {
           ))}
           </Stack>
 
-        <HStack align='baseline'>
+        <HStack align='baseline' style={{justifyContent:'center'}}>
           <Text> Mistakes:</Text> 
           {[...Array(3 - game.mistakes)].map(() =>
             <BsFillPersonFill color='grey'/>
@@ -135,7 +134,7 @@ function App() {
           )}
 
         </HStack>
-        <HStack spacing={4}>
+        <HStack spacing={4} style={{justifyContent:'center'}}>
           <Button className='action-button' onClick={game.shuffle}>
             Shuffle
           </Button>

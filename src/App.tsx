@@ -2,7 +2,7 @@ import React from 'react';
 import logo from './logo.svg';
 import './App.css';
 import { ChakraProvider, Flex, Stack, Heading, Text, Button, HStack } from '@chakra-ui/react';
-import {chunk, shuffle, State, Options} from './utils/utils';
+import {chunk, shuffle, State, Options, difficultyColours} from './utils/utils';
 import { SEP_9 } from './utils/games';
 import useMethods from 'use-methods';
 
@@ -73,18 +73,24 @@ function App() {
   return (
     <ChakraProvider>
       <Flex h ='100vh' w = '100vw' align = 'center' justify='center'>
-        <Stack>
+        <Stack spacing={4}>
           <Heading>
             Premier League Connections!
           </Heading>
           <Text>Can you pick the four premier league players with something in common?</Text>
           <Stack>
+            {game.complete.map((group) => (
+              <Stack className='done-group' bg={difficultyColours(group.difficulty)}>
+                <Text className='done-category'>{group.category}</Text>
+                <Text className='done-items'>{group.items.join(',')}</Text>
+              </Stack>
+            ))}
             
           {chunk(game.items, 4).map((row) => (
             <>
               <HStack>
                 {row.map((item) => (
-                  <Button className='item-button' onClick={() => game.toggleActive(item)} isActive={game.activeItems.includes(item)}>
+                  <Button className='item-button' _active={{ bg:'#48454d', color:'white' }} onClick={() => game.toggleActive(item)} isActive={game.activeItems.includes(item)}>
                     {item}
                   </Button>
               ))}
@@ -96,7 +102,7 @@ function App() {
         <HStack align='baseline'>
           <Text> Mistakes Made: {game.mistakes}</Text>
         </HStack>
-        <HStack>
+        <HStack spacing={4}>
           <Button className='action-button' onClick={game.shuffle}>
             Shuffle
           </Button>

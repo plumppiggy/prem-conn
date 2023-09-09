@@ -18,10 +18,10 @@ export type State = {
 
 export const difficultyColours = (difficulty: 1 | 2 | 3 | 4): string => {
   return {
-    1 : '#ffffff',
-    2 : '#ff00ff',
-    3 : '#ffffff',
-    4 : '#ffffff',
+    1 : '#f0da4d',
+    2 : '#4df05a',
+    3 : '#4df0e5',
+    4 : '#8e4df0',
   }[difficulty];
 };
 

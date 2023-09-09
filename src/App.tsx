@@ -8,6 +8,9 @@ import { SEP_9 } from './utils/games';
 import useMethods from 'use-methods';
 import {TbRectangleVerticalFilled} from 'react-icons/tb'
 import {BsFillPersonFill} from 'react-icons/bs'
+import HowToPlay from './components/HowToPlay';
+import {GiSoccerBall} from 'react-icons/gi'
+import premLogo from './fpl.png'
 
 const methods = (state: State) => {
   return {
@@ -80,13 +83,27 @@ function App() {
     groups: SEP_9
   })
   return (
+    <>
     <ChakraProvider>
       <Flex h ='100vh' w = '100vw' align = 'center' justify='center'>
+
         <Stack spacing={4}>
-          <Heading>
-            Premier League Connections!
-          </Heading>
-          <Text>Can you pick the four premier league players with something in common?</Text>
+          <HStack>
+            <Heading>
+              Premier League Connections!
+            </Heading>
+            <img height='80px' width='60px' src={premLogo}/>
+          </HStack>
+          
+          <HStack>
+            <Text>Can you pick the four premier league players with something in common?</Text>
+            <HowToPlay/>
+            <a href='https://fantasy.premierleague.com/entry/5880685/event/4/'>
+              <IconButton aria-label='fpl team' icon={<GiSoccerBall/>} />
+            </a>
+          </HStack>
+          
+
           <Stack>
             {game.complete.map((group) => (
               <Stack className='done-group' bg={difficultyColours(group.difficulty)}>
@@ -132,6 +149,7 @@ function App() {
       </Stack>
       </Flex>
     </ChakraProvider>
+    </>
 
   );
 }

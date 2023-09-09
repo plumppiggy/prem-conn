@@ -21,7 +21,7 @@ export const difficultyColours = (difficulty: 1 | 2 | 3 | 4): string => {
   return {
     1 : '#f0da4d',
     2 : '#4df05a',
-    3 : '#4ef542',
+    3 : '#427bf5',
     4 : '#8e4df0',
   }[difficulty];
 };

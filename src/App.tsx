@@ -1,7 +1,7 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
-import { ChakraProvider, Flex, Stack, Heading, Text, Button, HStack } from '@chakra-ui/react';
+import { ChakraProvider, Flex, Stack, Heading, Text, Button, HStack, Box} from '@chakra-ui/react';
 import {chunk, shuffle, State, Options, difficultyColours} from './utils/utils';
 import { SEP_9 } from './utils/games';
 import useMethods from 'use-methods';
@@ -36,6 +36,7 @@ const methods = (state: State) => {
         state.items = state.incomplete.flatMap((group) => group.items);
         state.activeItems = [];
       } else {
+        // TODO: Make the wiggle animation
         state.mistakes += 1;
         state.activeItems = [];
 
@@ -109,9 +110,9 @@ function App() {
           <Button className='action-button' onClick={game.deselectAll}>
             Deselect All
           </Button>
-          <Button className='action-button' onClick={game.submit}>
+          <Box as='button' className='chakra-button css-ez23ye action-button' disabled={game.activeItems.length < 4} onClick={game.submit}>
             Submit
-          </Button>
+          </Box>
         </HStack>
       </Stack>
       </Flex>

@@ -1,5 +1,3 @@
-import React from 'react';
-import logo from './logo.svg';
 import './App.css';
 import './anim.css';
 import { ChakraProvider, Flex, Stack, Heading, Text, Button, HStack, Box, IconButton} from '@chakra-ui/react';
@@ -40,13 +38,11 @@ const methods = (state: State) => {
         // take the actions with the correct group
         state.complete.push(correctGroup);
         state.incomplete = state.incomplete.filter((item) => item !== correctGroup);
-        state.items = state.incomplete.flatMap((group) => group.items);
+        state.items = state.items.filter((item) => !correctGroup.items.includes(item));
         state.activeItems = [];
       } else {
         // TODO: Make the wiggle animation
-        console.log("hello")
         state.wiggleItems = state.activeItems;
-        console.log(state.wiggleItems);
         state.mistakes += 1;
         state.activeItems = [];
 
@@ -56,6 +52,8 @@ const methods = (state: State) => {
           state.items = [];
         }
       }
+
+
     }
   }
 }
@@ -85,7 +83,7 @@ function App() {
   return (
     <>
     <ChakraProvider>
-      <Flex h ='100%' w = '100%' align = 'center' justify='center'>
+      <Flex h ='100%' w = '100%' align = 'center' justify='center' style={{padding:'1vh'}}>
         <Stack spacing={4}>
           <HStack>
             <Heading>

@@ -22,3 +22,142 @@ export const SEP_9: Group[] = [
     difficulty: 4
   }
 ]
+
+export const SEP_12: Group[] = [
+  {
+    category: 'Leicester City',
+    items: ['Kane', 'Ndidi', 'Fofana', 'Schmeichel'],
+    difficulty: 1
+  },
+  {
+    category: 'Tottenham',
+    items: ['Trippier', 'Walker', 'Johnson', 'Udojie'],
+    difficulty: 2
+  },
+  {
+    category: 'Manchester City',
+    items: ['Iheanacho', 'Phillips', 'Ireland', 'Bellamy'],
+    difficulty: 3
+  },
+  {
+    category: 'Newcastle',
+    items: ['Barnes', 'Shearer', 'Milner', 'Targett'],
+    difficulty: 4
+  }
+]
+
+export const SEP_13: Group[] = [
+  {
+    category: 'West Ham',
+    items: ['Paqueta', 'Bowen', 'Antonio', 'Benrahma'],
+    difficulty: 1
+  },
+  {
+    category: 'Aston Villa',
+    items: ['Grealish', 'Targett', 'Cash', 'Digne'],
+    difficulty: 2
+  },
+  {
+    category: 'Everton',
+    items: ['Alli', 'Pickford', 'Young', 'Harrison'],
+    difficulty: 3
+  },
+  {
+    category: 'Burnley',
+    items: ['Ramsey', 'Foster', 'Redmond', 'Taylor'],
+    difficulty: 4
+  }
+]
+
+export const SEP_14: Group[] = [
+  {
+    category: 'Brentford',
+    items: ['Mee', 'Onyeka', 'Mbeumo', 'Toney'],
+    difficulty: 1
+  },
+  {
+    category: 'Brighton',
+    items: ['Estupinan', 'Dunk', 'Lallana', 'Milner'],
+    difficulty: 2
+  },
+  {
+    category: 'Luton',
+    items: ['Krul', 'Barkley', 'Morris', 'Andersen'],
+    difficulty: 3
+  },
+  {
+    category: 'Nottingham Forest',
+    items: ['Shelvey', 'Williams', 'Aurier', 'Boly'],
+    difficulty: 4
+  }
+]
+
+
+export const SEP_15: Group[] = [
+  {
+    category: 'Everton',
+    items: ['Dele', 'Pickford', 'Godfrey', 'Barkley'],
+    difficulty: 1
+  },
+  {
+    category: 'Manchester United',
+    items: ['Smalling', 'Rooney', 'Carrick', 'Mount'],
+    difficulty: 2
+  },
+  {
+    category: 'Leicester',
+    items: ['Vardy', 'Barnes', 'Maguire', 'Justin'],
+    difficulty: 3
+  },
+  {
+    category: 'Chelsea',
+    items: ['Abraham', 'Chilwell', 'James', 'Sterling'],
+    difficulty: 4
+  }
+]
+
+export const SEP_16: Group[] = [
+  {
+    category: 'Barcelona',
+    items: ['Fabregas', 'Cancelo', 'Ferran', 'Pique'],
+    difficulty: 1
+  },
+  {
+    category: 'Athletico Madrid',
+    items: ['Torres', 'Trippier', 'Costa', 'Aguero'],
+    difficulty: 2
+  },
+  {
+    category: 'Real Madrid',
+    items: ['Beckham', 'Owen', 'Bellingham', 'Ozil'],
+    difficulty: 3
+  },
+  {
+    category: 'Roma',
+    items: ['Allison', 'Salah', 'Dzeko', 'Lukaku'],
+    difficulty: 4
+  }
+]
+
+export const SEP_17: Group[] = [
+  {
+    category: 'Top Scorers',
+    items: ['Haaland', 'Edouard', 'Ferguson', 'Mbeumo'],
+    difficulty: 1
+  },
+  {
+    category: 'Top Assists',
+    items: ['Neto', 'Salah', 'Alvarez', 'Foden'],
+    difficulty: 2
+  },
+  {
+    category: 'Top Passes',
+    items: ['Rodri', 'Silva', 'Dunk', 'Saliba'],
+    difficulty: 3
+  },
+  {
+    category: 'Most Clean Sheets',
+    items: ['Leno', 'Sanchez', 'Ederson', 'Vicario'],
+    difficulty: 4
+  }
+]

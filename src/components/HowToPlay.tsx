@@ -12,7 +12,7 @@ function HowToPlay() {
         <ModalHeader>How to Play Premier League Connections</ModalHeader>
         <ModalCloseButton />
         <ModalBody fontSize='sm'>
-            <h3 style={{fontSize: '1rem'}}>Find groups of four premier league players which played for the same team.</h3>
+            <h3 style={{fontSize: '1rem'}}>Find groups of four premier league players who have something in common.</h3>
             <div className='how-to-play-list'>
               <ul>
                 <li>
@@ -24,8 +24,8 @@ function HowToPlay() {
               </ul>
             </div>
             
-            The categories will always be Premier League teams! <br/>
-            Each puzzle has exactly one solution, but some players may have played together in different teams!
+            <br/>
+            Each puzzle has exactly one solution, but there might be some red herrings!
         </ModalBody>
         <ModalFooter fontSize='xs'>
           Made by Elysia Darbourne

@@ -1,16 +1,16 @@
 {
   "files": {
     "main.css": "/prem-conn/static/css/main.44b4bc29.css",
-    "main.js": "/prem-conn/static/js/main.491149c6.js",
+    "main.js": "/prem-conn/static/js/main.d829507d.js",
     "static/js/787.94b70fd9.chunk.js": "/prem-conn/static/js/787.94b70fd9.chunk.js",
     "static/media/fpl.png": "/prem-conn/static/media/fpl.ed9389112218799f1cbf.png",
     "index.html": "/prem-conn/index.html",
     "main.44b4bc29.css.map": "/prem-conn/static/css/main.44b4bc29.css.map",
-    "main.491149c6.js.map": "/prem-conn/static/js/main.491149c6.js.map",
+    "main.d829507d.js.map": "/prem-conn/static/js/main.d829507d.js.map",
     "787.94b70fd9.chunk.js.map": "/prem-conn/static/js/787.94b70fd9.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.44b4bc29.css",
-    "static/js/main.491149c6.js"
+    "static/js/main.d829507d.js"
   ]
 }

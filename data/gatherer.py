@@ -13,7 +13,7 @@ table = soup.find('table', id='playerdata')
 tablebody = soup.find('tbody')
 rows = table.find_all('tr')
 
-with open(filename, 'w', encoding='UTF8') as f:
+with open(filename, 'w', encoding='UTF8', newline='') as f:
   w = csv.writer(f)
   w.writerow(GetHeaders())
 

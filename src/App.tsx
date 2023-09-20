@@ -2,7 +2,7 @@ import './App.css';
 import './anim.css';
 import { ChakraProvider, Flex, Stack, Heading, Text, Button, HStack, Box, IconButton} from '@chakra-ui/react';
 import {chunk, shuffle, State, Options, difficultyColours} from './utils/utils';
-import { SEP_9, SEP_12, SEP_13, SEP_14, SEP_15, SEP_16, SEP_17, SEP_18} from './utils/games';
+import { SEP_9, SEP_12, SEP_13, SEP_14, SEP_15, SEP_16, SEP_17, SEP_18, test} from './utils/games';
 import useMethods from 'use-methods';
 import {TbRectangleVerticalFilled} from 'react-icons/tb'
 import {BsFillPersonFill} from 'react-icons/bs'
@@ -78,7 +78,7 @@ const useGame = (options: Options) => {
 
 function App() {
   const game = useGame({
-    groups: SEP_18
+    groups: test
   })
   return (
     <>

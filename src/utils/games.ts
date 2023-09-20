@@ -161,3 +161,26 @@ export const SEP_17: Group[] = [
     difficulty: 4
   }
 ]
+
+export const SEP_18: Group[] = [
+  {
+    category: 'Balon D\'Or Winner',
+    items: ['Charlton', 'Modric', 'Best', 'Owen'],
+    difficulty: 1
+  },
+  {
+    category: 'Golden Boot Winners',
+    items: ['Vardy', 'Salah', 'Henry', 'Drogba'],
+    difficulty: 2
+  },
+  {
+    category: 'World Cup Winners',
+    items: ['Alvarez', 'Montiel', 'Enzo', 'MacAllister'],
+    difficulty: 3
+  },
+  {
+    category: 'Players with Signature Moves',
+    items: ['Ronaldo', 'Berbatov', 'Bolasie', 'Jorginho'],
+    difficulty: 4
+  }
+]

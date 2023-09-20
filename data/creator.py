@@ -14,6 +14,8 @@ if __name__ == '__main__':
     for row in reader:
       # covert the row to a player
       player = Player(row, True)
+      print(player)
+      print(player.get_rating())
       #find the players team
       if player.team not in teams:
         teams[player.team] = Team(player.team)
@@ -30,7 +32,7 @@ if __name__ == '__main__':
   for i, item in enumerate(list(teams.items())):
     if i in chosen_teams:
       team = teams[item[0]]
-      chosen = team.get_players()
+      chosen = team.get_players(diff)
       print('Team : {0} Chosen: {1}'.format(team.name, chosen))
       json.append({
         'difficulty': diff,

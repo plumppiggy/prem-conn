@@ -15,6 +15,7 @@ export type State = {
   activeItems: string[];
   mistakes: number;
   wiggleItems: string[];
+  oneAway: boolean;
 }
 
 export const difficultyColours = (difficulty: 1 | 2 | 3 | 4): string => {

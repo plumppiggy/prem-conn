@@ -4,7 +4,7 @@ function HowToPlay() {
   const {isOpen, onOpen, onClose} = useDisclosure();
   return (
     <>
-    <IconButton aria-label='How to Play' onClick={onOpen} icon={<BsQuestionCircle/>}></IconButton>
+    <IconButton style={{marginLeft:'auto'}} aria-label='How to Play' onClick={onOpen} icon={<BsQuestionCircle/>}></IconButton>
     
     <Modal isOpen={isOpen} onClose={onClose} isCentered size="lg">
       <ModalOverlay />

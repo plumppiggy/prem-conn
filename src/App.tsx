@@ -1,14 +1,15 @@
 import './App.css';
 import './anim.css';
-import { ChakraProvider, Flex, Stack, Heading, Text, Button, HStack, Box, IconButton} from '@chakra-ui/react';
+import { ChakraProvider, Flex, Stack, Heading, Text, Button, HStack, Box, IconButton, Modal} from '@chakra-ui/react';
 import {chunk, shuffle, State, Options, difficultyColours} from './utils/utils';
 import { SEP_9, SEP_12, SEP_13, SEP_14, SEP_15, SEP_16, SEP_17, SEP_18, test} from './utils/games';
 import useMethods from 'use-methods';
 import {TbRectangleVerticalFilled} from 'react-icons/tb'
-import {BsFillPersonFill} from 'react-icons/bs'
+import {BsFillPersonFill, BsTicket} from 'react-icons/bs'
 import HowToPlay from './components/HowToPlay';
 import {GiSoccerBall} from 'react-icons/gi'
 import premLogo from './fpl.png'
+import { useEffect, useState } from 'react';
 
 const methods = (state: State) => {
   return {
@@ -34,6 +35,8 @@ const methods = (state: State) => {
         group.items.every((item) => state.activeItems.includes(item)),
       );
 
+      
+
       if (correctGroup) {
         // take the actions with the correct group
         state.complete.push(correctGroup);
@@ -52,8 +55,6 @@ const methods = (state: State) => {
           state.items = [];
         }
       }
-
-
     }
   }
 }
@@ -65,7 +66,8 @@ const useGame = (options: Options) => {
     items: shuffle(options.groups.flatMap((g) => g.items)),
     activeItems: [],
     mistakes: 0,
-    wiggleItems: []
+    wiggleItems: [],
+    oneAway: false
   };
 
   const [state, finish] = useMethods(methods, initState);
@@ -77,28 +79,55 @@ const useGame = (options: Options) => {
 };
 
 function App() {
+
+  const [oneAway, setOneAway] = useState(false)
+  
   const game = useGame({
-    groups: test
+    groups: SEP_18
   })
+
+  const date = new Date(Date.now()).toDateString()
+
+  function submitSelection() {
+    game.submit()
+    const oneAway = game.incomplete.find((group) => group.items.filter(o => game.activeItems.includes(o)).length == 3)
+    
+    if (oneAway) {
+      setOneAway(true)
+      setTimeout( () => setOneAway(false), 2000)
+    }
+
+  }
+
   return (
     <>
     <ChakraProvider>
       <Flex h ='100%' w = '100%' align = 'center' justify='center' style={{padding:'1vh'}}>
         <Stack spacing={4}>
-          <HStack>
+          <HStack justifyContent={'center'}>
             <Heading>
               Premier League Connections!
             </Heading>
             <img height='80px' width='60px' src={premLogo}/>
           </HStack>
           
-          <HStack>
+          <HStack alignContent={'center'} justifyContent={'center'}>
             <Text>Can you pick the four premier league players with something in common?</Text>
+          </HStack>
+
+          <HStack>
+            <Text>{date}</Text>
+            {oneAway && 
+            <div className='one-away'>
+              <Text>One Away!</Text>
+            </div>
+            }
             <HowToPlay/>
             <a href='https://fantasy.premierleague.com/entry/5880685/event/4/'>
               <IconButton aria-label='fpl team' icon={<GiSoccerBall/>} />
             </a>
           </HStack>
+          
           
 
           <Stack style={{alignItems:'center'}}>
@@ -139,7 +168,7 @@ function App() {
           <Button className='action-button' onClick={game.deselectAll}>
             Deselect All
           </Button>
-          <Box as='button' className='chakra-button css-ez23ye action-button' disabled={game.activeItems.length < 4} onClick={game.submit}>
+          <Box as='button' className='chakra-button css-ez23ye action-button' disabled={game.activeItems.length < 4} onClick={submitSelection}>
             Submit
           </Box>
         </HStack>

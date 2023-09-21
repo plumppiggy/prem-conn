@@ -74,14 +74,14 @@ class Team:
     
     sum = functools.reduce(lambda x, y: x + y.get_rating(), players, 0)
     print(sum)
-    while abs(sum - DIFFMAP[difficulty]) > 300:
+    while abs(sum - DIFFMAP[difficulty]) > 100:
       if (sum - DIFFMAP[difficulty]) > 0:
         min_score = max(players, key=lambda x: x.get_rating())
       else:
         min_score = min(players, key=lambda x: x.get_rating())
       print(min_score)
       for player, idx in zip(players, chosen):
-        if player == min_score:
+        if player == min_score or player.total_points == 0:
           chosen.remove(idx)
           players.remove(player)
           break

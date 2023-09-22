@@ -4,7 +4,7 @@ import functools
 TEAMS = {'Man City' : 5, 'Liverpool' : 5, 'Spurs' : 5, 'Arsenal' : 5, 'Brighton' : 3, 'West Ham' : 4, 'Aston Villa' : 3, 'Nottm Forest' : 2, 
          'Crystal Palace' : 3, 'Fulham' : 1, 'Brentford': 1, 'Newcastle' : 3, 'Man Utd': 5, 'Chelsea' : 5, 'Bournemouth': 3, 'Wolves': 3,
          'Sheffield Utd': 1, 'Everton': 3, 'Burnley': 2, 'Luton': 1}
-DIFFMAP = {1 : 1000, 2 : 300, 3: 200, 4: 100}
+DIFFMAP = {1 : 0.1, 2 : 0.01, 3: 0.02, 4: 0.001}
 class Player:
 
   def __init__(self, row, is_reading = False):
@@ -49,6 +49,10 @@ def GetHeaders():
 def get_score_wrapper(sum, player):
   return sum + player.get_rating()
 
+def create_map():
+  pass
+
+
 class Team:
   def __init__(self, name) -> None:
     self.players = []
@@ -58,37 +62,42 @@ class Team:
     if type(players) == list:
       self.players.extend(players)
     else:
-      self.players.append(players)
+      if int(players.total_points) > 3:
+        self.players.append(players)
+
+  def get_total_points(self):
+    return functools.reduce(lambda x, y: x + y.get_rating(), self.players, 0)
+
 
   def get_players(self, difficulty):
-    chosen = [random.randint(0, len(self.players) - 1) for _ in range(4)]
-    chosen = set(chosen)
+    chosen = {random.randint(0, len(self.players) - 1) for _ in range(3)}
     players = []
     total_points = functools.reduce(lambda x, y: x + y.get_rating(), self.players, 0)
-
-    while len(chosen) < 4:
-      chosen.add(random.randint(0, len(self.players) - 1))
     
     for idx in chosen:
       players.append(self.players[idx])
     
     sum = functools.reduce(lambda x, y: x + y.get_rating(), players, 0)
-    print(sum)
-    while abs(sum - DIFFMAP[difficulty]) > 100:
+    print(sum/total_points)
+    print(total_points)
+    while len(chosen) < 4 or sum / total_points < DIFFMAP[difficulty]:
+      print('picking again')
       if (sum - DIFFMAP[difficulty]) > 0:
         min_score = max(players, key=lambda x: x.get_rating())
       else:
         min_score = min(players, key=lambda x: x.get_rating())
       print(min_score)
+      new_chosen = set()
+      new_players = []
       for player, idx in zip(players, chosen):
-        if player == min_score or player.total_points == 0:
-          chosen.remove(idx)
-          players.remove(player)
-          break
+        if player != min_score and int(player.total_points) > 3:
+          new_chosen.add(idx)
+          new_players.append(player)
+      chosen, players = new_chosen, new_players
       while len(chosen) < 4:
         idx = random.randint(0, len(self.players) - 1)
         chosen.add(idx)
-      players.append(self.players[idx])
+        players.append(self.players[idx])
       sum = functools.reduce(lambda x, y: x + y.get_rating(), players, 0)
 
 

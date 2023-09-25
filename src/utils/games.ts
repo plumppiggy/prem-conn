@@ -185,6 +185,76 @@ export const SEP_18: Group[] = [
   }
 ]
 
+export const SEP_22: Group[] = [
+  {
+    category: 'Forwards',
+    items: ['Salah', 'Mane', 'Moses', 'Jota'],
+    difficulty: 1
+  },
+  {
+    category: 'Midfielders',
+    items: ['Gerrard', 'Alberto', 'Lallana', 'Milner'],
+    difficulty: 2
+  },
+  {
+    category: 'Defenders',
+    items: ['Manquillo', 'Van Dijk', 'Lovren', 'Clyne'],
+    difficulty: 3
+  },
+  {
+    category: 'Goalies',
+    items: ['Allison', 'Jones', 'Doni', 'Carson'],
+    difficulty: 4
+  }
+]
+
+export const BACKUP: Group[] = [
+  {
+    category: 'Players Only on Elysia\'s FPL Team',
+    items: ['Turner', 'Watkins', 'Eze', 'Bell'],
+    difficulty: 1
+  },
+  {
+    category: 'Players Only on Mummy\'s FPL Team',
+    items: ['', 'Gusto', 'Cunha', 'Bowen'],
+    difficulty: 2
+  },
+  {
+    category: 'Players Only on Dave\'s FPL Team',
+    items: ['Leno', 'Morris', 'Baldock', 'Cash'],
+    difficulty: 3
+  },
+  {
+    category: 'Players Only on Ethan\'s FPL Team',
+    items: ['Colwill', 'Odegaard', 'Alvarez', 'Olsen'],
+    difficulty: 4
+  }
+]
+
+export const SEP_24: Group[] = [
+  {
+    category: 'Scored in 8-0 Newcastle vs. Sheff Utd',
+    items: ['Wilson', 'Gordon', 'Almiron', 'Isak'],
+    difficulty: 1
+  },
+  {
+    category: 'Scored in 7-0 Liv vs. Utd',
+    items: ['Gakpo', 'Nunez', 'Salah', 'Firmino'],
+    difficulty: 2
+  },
+  {
+    category: 'Scored in 9-1 Spurs vs. Wigan',
+    items: ['Crouch', 'Defoe', 'Lennon', 'Bentley'],
+    difficulty: 3
+  },
+  {
+    category: 'Scored in 9-0 Liv vs. Bournemouth',
+    items: ['Diaz', 'Elliot', 'van Dijk', 'Carvalho'],
+    difficulty: 4
+  }
+]
+
+
 export const test : Group[] = JSON.parse('[{ "difficulty": 1, "category": "West Ham", "items": ["Kehrer","Kudus","Cornet","Anang"]},{ "difficulty": 2, "category": "Crystal Palace", "items": ["C.Doucouré","Ward","Lerma","Ahamada"]},{ "difficulty": 3, "category": "Wolves", "items": ["Jordão","King","Podence","S.Bueno"]},{ "difficulty": 4, "category": "Man Utd", "items": ["Garnacho","Shaw","Hannibal","Martial"]}]')
 
 export const SEP_21 : Group[] = JSON.parse('[{ "difficulty": 1, "category": "Arsenal", "items": ["Ramsdale","Zinchenko","Rice","Thomas"]},{ "difficulty": 2, "category": "Spurs", "items": ["Bissouma","Davies","Vicario","E.Royal"]},{ "difficulty": 3, "category": "Aston Villa", "items": ["Diego Carlos","McGinn","Bailey","Martinez"]},{ "difficulty": 4, "category": "Bournemouth", "items": ["Billing","Rothwell","Kelly","Aarons"]}]')

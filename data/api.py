@@ -1,8 +1,12 @@
 import requests
 import pandas as pd
+import numpy as np
+from sklearn.linear_model import LinearRegression
+import matplotlib.pyplot as plt
 
 TEAMS = {}
 PLAYERS = {}
+
 
 class Team:
   def __init__(self, row):
@@ -25,24 +29,53 @@ class Player:
     results = response.json()
     history = results['history']
     for i, row in enumerate(history):
-      history[i]['element'] = self.id
+      history[i]['element'] = int(self.id)
       history[i]['name'] = self.name
     return history
 
 def rolling_average(df, window):
   return df.rolling(min_periods=1, window=window).mean().shift(1)
 
-def get_player_averages(df):
-  feature_names = []
-  for stat in df[['total_points']]:
-    print(stat)
-    temp = df.groupby('element')[stat].apply(lambda x : rolling_average(x, 4))
-    print(df.groupby('element')[stat].apply(lambda x : rolling_average(x, 4)))
-    df['hello'] = temp.reset_index(level=0, drop=True)
+def get_player_averages(df, prev_weeks = 3):
+  # rename some of the dataframe columns
+  df.rename(columns = {'element' : 'player_id', 'total_points': 'points'}, inplace = True)
+
+  # TO-DO: figure out how to add difficulty to the calculations
+  #df['oponent_difficulty'] = DIFFMAP[df.opponent_team]
+
+  df = df.set_index(['fixture'])
+
+  df = df.groupby(['player_id']).rolling(prev_weeks).agg({'minutes':np.sum, 'bps': np.sum, 'influence':np.sum}).shift(0).fillna(0)
+
+  #df = df[df.fixture>prev_weeks]
+  #df = df[df.minutes > 0]
+
+  print(df)
+
+  # for stat in df[['total_points']]:
+  #   print(stat)
+  #   temp = df.groupby('element')[stat].apply(lambda x : rolling_average(x, 4))
+  #   df['rolling_average_tp'] = temp.reset_index(level=0, drop=True)
 
   return df
 
+# Get the players from the API and write to CSV
+def get_man_city_players(players, player_df, read_from_csv=True):
+  if read_from_csv == True:
+    return pd.read_csv('man_city_players_history.csv')
+  # Else manually get the data from the API (time consuming)
+  man_city_players = [player for player in players if 'Man City' == player.team]
+  
+  for player in man_city_players:
+    if player_df is None:
+      player_df = pd.DataFrame(player.get_player_history())
+    else:
+      history = player.get_player_history()
+      for row in history:
+        player_df.loc[len(player_df.index)] = row
 
+  player_df.to_csv('man_city_players_history.csv')
+  return player_df
 
 if __name__ == '__main__':
   response = requests.get('https://fantasy.premierleague.com/api/bootstrap-static/')
@@ -66,27 +99,29 @@ if __name__ == '__main__':
   player_df = None
 
   # Filter by MC players to reduce the number of players
-  man_city_players = [player for player in players if 'Man City' == player.team]
-  print(man_city_players)
-  
-  for player in man_city_players[:3]:
-    if player_df is None:
-      player_df = pd.DataFrame(player.get_player_history())
-    else:
-      history = player.get_player_history()
-      for row in history:
-        player_df.loc[len(player_df.index)] = row
-
-  print(player_df)
+  player_df = get_man_city_players(players, player_df)
+  print(player_df.columns)
 
   new_df = get_player_averages(player_df)
 
-  print(new_df)
+  # # Linear Regression between the expected and actual points
+  # x_pos = player_df.columns.get_loc('threat')
+  # y_pos = player_df.columns.get_loc('total_points')
+  # x = player_df.iloc[:, x_pos].values.reshape(-1, 1)
+  # y = player_df.iloc[:, y_pos].values.reshape(-1, 1)
 
+  # for i, item in enumerate(x):
+  #   x[i] = float(item)
+  # for i, item in enumerate(y):
+  #   y[i] = float(item)
 
+  # linear_regressor = LinearRegression()
+  # linear_regressor.fit(x, y)
+  # y_pred = linear_regressor.predict(x)
 
-  #df = pd.DataFrame(players_json, columns=['first_name', 'team_code', 'strength_attack_away','expected_goals_per_90', 'expected_assists_per_90', 'points_per_game_rank', 'threat'])
-  #print(df)
+  # plt.scatter(x, y)
+  # plt.plot(x, y_pred, color='red')
+  # plt.show()
 
   
   

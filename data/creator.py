@@ -7,6 +7,13 @@ from player import TEAMS
 import pandas as pd
 
 
+# Maps the player stat the the game grouping
+PLAYER_PROPERTIES = {'penalties_saved' : 'Players who saved a penatly', 'penalties_scored' : 'Players who scored a penalty',
+                      'goals_scored' : 'Players who have scored', 'own_goals' : 'Players who have scored an own goal'}
+
+
+
+
 def define_game(json):
   '''
   Print and format the created game in a way that is consistent with the React App

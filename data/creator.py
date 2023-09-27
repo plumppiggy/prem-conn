@@ -4,13 +4,27 @@ import csv
 import random
 from player import create_map
 from player import TEAMS
+import pandas as pd
 
 
+def define_game(json):
+  '''
+  Print and format the created game in a way that is consistent with the React App
+  '''
+  print('[', end='')
+  for i, team in enumerate(json):
+    print('{{ "difficulty": {0}, "category": \"{1}\", "items": ['.format(team['difficulty'], team['category']), end='')
+    for j, player in enumerate(team['items']):
+      print("\"{0}\"".format(player), end='')
+      if j != len(team['items']) - 1:
+        print(',', end='')
+    print(']}', end='')
+    if i != len(json) - 1:
+      print(',', end='')
+  print(']')
 
-
-if __name__ == '__main__':
+def group_players_by_team():
   teams = {}
-  players = []
   # read the data from the csv
   with open('playerdata.csv', 'r', encoding="utf8") as f:
     reader = csv.reader(f)
@@ -47,7 +61,7 @@ if __name__ == '__main__':
   print(chosen_teams)
   for i in chosen_teams:
     print(list(teams.keys())[i])
-    
+
   json = []
   diff = 1
   for i, item in enumerate(list(teams.items())):
@@ -62,17 +76,35 @@ if __name__ == '__main__':
       })
       diff += 1
 
-  print('[', end='')
-  for i, team in enumerate(json):
-    print('{{ "difficulty": {0}, "category": \"{1}\", "items": ['.format(team['difficulty'], team['category']), end='')
-    for j, player in enumerate(team['items']):
-      print("\"{0}\"".format(player), end='')
-      if j != len(team['items']) - 1:
-        print(',', end='')
-    print(']}', end='')
-    if i != len(json) - 1:
-      print(',', end='')
-  print(']')
+  define_game(json)
+
+class PlayerData:
+  def __init__(self):
+    self.df = pd.read_csv('players.csv')
+
+  def get_players_feature(self, field):
+    '''
+    Returns the players who have > 0 of the given field
+    For example if the field is penalties saved the result is the players who have saved a pen
+    '''
+    results = self.df[self.df[field] > 0]['second_name']
+    return results
+
+
+if __name__ == '__main__':
+  player_data = PlayerData()
+
+  pens_saved = player_data.get_players_feature('penalties_saved')
+  print(pens_saved)
+
+  scored = player_data.get_players_feature('goals_scored')
+  print(scored)
+
+
+  
+
+
+  
 
 
 

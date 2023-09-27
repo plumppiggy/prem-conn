@@ -5,6 +5,8 @@ TEAMS = {'Man City' : 5, 'Liverpool' : 5, 'Spurs' : 5, 'Arsenal' : 5, 'Brighton'
          'Crystal Palace' : 3, 'Fulham' : 1, 'Brentford': 1, 'Newcastle' : 3, 'Man Utd': 5, 'Chelsea' : 5, 'Bournemouth': 3, 'Wolves': 3,
          'Sheffield Utd': 1, 'Everton': 3, 'Burnley': 2, 'Luton': 1}
 DIFFMAP = {1 : 0.1, 2 : 0.01, 3: 0.02, 4: 0.001}
+
+
 class Player:
 
   def __init__(self, row, is_reading = False):

@@ -1,22 +1,19 @@
-from player import Player
-from player import Team
 import csv
 import random
-from player import create_map
-from player import TEAMS
 import pandas as pd
+from player import Team
+from player import Player
+from player import TEAMS
 
 
 # Maps the player stat the the game grouping
-PLAYER_PROPERTIES = {'penalties_saved' : 'Players who saved a penatly', 'penalties_scored' : 'Players who scored a penalty',
-                      'goals_scored' : 'Players who have scored', 'own_goals' : 'Players who have scored an own goal'}
-
-
-
+PLAYER_PROPERTIES = {'penalties_saved' : 'Players who saved a penatly', 'penalties_missed' : 'Players who missed a penalty',
+                      'goals_scored' : 'Players who have scored', 'own_goals' : 'Players who have scored an own goal',
+                      'own_goals': 'Players who have scored an own goal', 'red_cards' : 'Players who have gotten a red card' }
 
 def define_game(json):
   '''
-  Print and format the created game in a way that is consistent with the React App
+  Print and format the created game in a way that is consistent with the TypeScript Group[] Type
   '''
   print('[', end='')
   for i, team in enumerate(json):
@@ -31,28 +28,25 @@ def define_game(json):
   print(']')
 
 def group_players_by_team():
+  '''
+  Create games based on players that have a team in common
+  '''
   teams = {}
-  # read the data from the csv
+  # Read the data from the csv
   with open('playerdata.csv', 'r', encoding="utf8") as f:
     reader = csv.reader(f)
     next(reader, None)
     for row in reader:
-      # covert the row to a player
+      # Convert the row to a player
       player = Player(row, True)
-      #find the players team
+      # Find the players team
       if player.team not in teams:
         teams[player.team] = Team(player.team)
-
       teams[player.team].add_players(player)
-
-  for team, team_obj in teams.items():
-    print(team)
-    print(team_obj.get_total_points())
 
   # Pick the teams to use
   chosen_teams = {random.randint(0, len(teams) - 1) for _ in range(3)}
 
-  print(chosen_teams)
   while len(chosen_teams) != 4:
     chosen_teams.add(random.randint(0, len(teams) - 1))
     new_teams = set()
@@ -65,17 +59,12 @@ def group_players_by_team():
         new_teams.add(idx)
     chosen_teams = new_teams
 
-  print(chosen_teams)
-  for i in chosen_teams:
-    print(list(teams.keys())[i])
-
   json = []
   diff = 1
   for i, item in enumerate(list(teams.items())):
     if i in chosen_teams:
       team = teams[item[0]]
       chosen = team.get_players(diff)
-      print('Team : {0} Chosen: {1}'.format(team.name, chosen))
       json.append({
         'difficulty': diff,
         'category' : team.name,
@@ -86,8 +75,12 @@ def group_players_by_team():
   define_game(json)
 
 class PlayerData:
+  '''
+  Holds the player data from csv's and parses the data
+  '''
   def __init__(self):
     self.df = pd.read_csv('players.csv')
+    self.goal_stats = pd.read_csv('GoalsScored.csv')
 
   def get_players_feature(self, field):
     '''
@@ -96,16 +89,52 @@ class PlayerData:
     '''
     results = self.df[self.df[field] > 0]['second_name']
     return results
+  
+  def get_hatricks(self):
+    res = self.goal_stats[self.goal_stats.isin([3]).any(axis=1)]['name']
+    print(res)
 
+  def group_by_squad_number(self, number):
+    '''
+    TODO: Group players by number (shirt number)
+    '''
+    pass
 
 if __name__ == '__main__':
+
+  # DATA Storage (Basically)
   player_data = PlayerData()
 
-  pens_saved = player_data.get_players_feature('penalties_saved')
-  print(pens_saved)
+  # Not enough players have scored hatricks to implement this
+  # hatrick_heros = player_data.get_hatricks()
 
-  scored = player_data.get_players_feature('goals_scored')
-  print(scored)
+  json = []
+  diff = 1
+
+  # Go through the premade groups
+  # TODO: Shuffle the list so it changes each time (right now only four have four players)
+  for field, title in PLAYER_PROPERTIES.items():
+    # Get the players that reach the field description
+    res = player_data.get_players_feature(field)
+
+    # Not enough players - don't add
+    if len(res) < 4:
+      continue
+
+    res = [r for r in res]
+    # Shuffle the results
+    random.shuffle(res)
+
+    # Format as a JSON
+    json.append({
+      'difficulty': diff,
+      'category': title,
+      'items': [r for r in res[:4]]
+    })
+    # Increase the difficulty
+    diff += 1
+
+  print(json)
 
 
   

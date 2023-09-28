@@ -83,7 +83,7 @@ function App() {
   const [oneAway, setOneAway] = useState(false)
   
   const game = useGame({
-    groups: SEP_24
+    groups: SEP_13
   })
 
   const date = new Date(Date.now()).toDateString()

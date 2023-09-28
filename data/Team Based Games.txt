@@ -1,0 +1,24 @@
+Team Based Games
+
+[{ "difficulty": 1, "category": "Man City", "items": ["Kovačić","Rodrigo","Foden","Akanji"]},
+{ "difficulty": 2, "category": "West Ham", "items": ["Álvarez","P.Fornals","Ward-Prowse","Souček"]},
+{ "difficulty": 3, "category": "Aston Villa", "items": ["Duran","Pau","Kamara","Cash"]},
+{ "difficulty": 4, "category": "Chelsea", "items": ["Enzo","Disasi","Caicedo","Ugochukwu"]}]
+
+[{ "difficulty": 1, "category": "Man City", "items": ["Ederson M.","Haaland","J.Alvarez","Grealish"]},
+{ "difficulty": 2, "category": "Arsenal", "items": ["Trossard","Havertz","Zinchenko","Saka"]},
+{ "difficulty": 3, "category": "Wolves", "items": ["N.Semedo","João Gomes","José Sá","Sarabia"]},
+{ "difficulty": 4, "category": "Sheffield Utd", "items": ["Basham","Baldock","Norwood","McBurnie"]}]
+
+Random Based Games
+
+[{ "difficulty": 1, "category": "Players who have scored", "items": ["De Cordova-Reid","Maddison","Longstaff","Boly"]},
+{ "difficulty": 2, "category": "Players who have scored an own goal", "items": ["Cash","Bueno López","Pickford","Martínez"]},
+{ "difficulty": 3, "category": "Players who have gotten a red card", "items": ["van Dijk","Nunes","Mac Allister","Aguerd"]},
+{ "difficulty": 4, "category": "Players that have kept a clean sheet", "items": ["Kulusevski","Isak","Núñez Ribeiro","Lemina"]}]
+
+[{ "difficulty": 1, "category": "Players who have scored", "items": ["McGinn","Haaland","Awoniyi","Soares de Paulo"]},
+{ "difficulty": 2, "category": "Players who have scored an own goal", "items": ["Martínez","Kerkez","Cash","Bueno López"]},
+{ "difficulty": 3, "category": "Players who have gotten a red card", "items": ["Nunes","Zaroury","Ream","van Dijk"]},
+{ "difficulty": 4, "category": "Players that have kept a clean sheet", "items": ["Kerkez","Ugochukwu","Andersen","Tavernier"]}]
+

@@ -45,15 +45,11 @@ class Player:
     score *= float(self.price)
     return score
   
-def GetHeaders():
+def get_headers():
   return ["Name", "Position", "Team", "Price", "Total Points"]
 
 def get_score_wrapper(sum, player):
   return sum + player.get_rating()
-
-def create_map():
-  pass
-
 
 class Team:
   def __init__(self, name) -> None:
@@ -61,7 +57,7 @@ class Team:
     self.name = name
 
   def add_players(self, players):
-    if type(players) == list:
+    if isinstance(players, list):
       self.players.extend(players)
     else:
       if int(players.total_points) > 3:
@@ -73,35 +69,32 @@ class Team:
 
   def get_players(self, difficulty):
     chosen = {random.randint(0, len(self.players) - 1) for _ in range(3)}
-    players = []
+    cur_players = set()
     total_points = functools.reduce(lambda x, y: x + y.get_rating(), self.players, 0)
     
     for idx in chosen:
-      players.append(self.players[idx])
+      cur_players.add(self.players[idx])
     
-    sum = functools.reduce(lambda x, y: x + y.get_rating(), players, 0)
-    print(sum/total_points)
-    print(total_points)
-    while len(chosen) < 4 or sum / total_points < DIFFMAP[difficulty]:
-      print('picking again')
-      if (sum - DIFFMAP[difficulty]) > 0:
-        min_score = max(players, key=lambda x: x.get_rating())
+    sm = functools.reduce(lambda x, y: x + y.get_rating(), cur_players, 0)
+    while len(chosen) < 4 or sm / total_points < DIFFMAP[difficulty]:
+      if (sm - DIFFMAP[difficulty]) > 0:
+        min_score = max(cur_players, key=lambda x: x.get_rating())
       else:
-        min_score = min(players, key=lambda x: x.get_rating())
-      print(min_score)
+        min_score = min(cur_players, key=lambda x: x.get_rating())
       new_chosen = set()
-      new_players = []
-      for player, idx in zip(players, chosen):
+      new_players = set()
+      for player, idx in zip(cur_players, chosen):
         if player != min_score and int(player.total_points) > 3:
           new_chosen.add(idx)
-          new_players.append(player)
-      chosen, players = new_chosen, new_players
-      while len(chosen) < 4:
+          new_players.add(player)
+      chosen.clear()
+      cur_players.clear()
+      chosen, cur_players = new_chosen, new_players
+      while len(cur_players) < 4:
         idx = random.randint(0, len(self.players) - 1)
-        chosen.add(idx)
-        players.append(self.players[idx])
-      sum = functools.reduce(lambda x, y: x + y.get_rating(), players, 0)
-
-
-    return players
+        if idx not in chosen: 
+          chosen.add(idx)
+          cur_players.add(self.players[idx])
+      sm = functools.reduce(lambda x, y: x + y.get_rating(), cur_players, 0)
+    return cur_players
     

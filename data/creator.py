@@ -1,5 +1,6 @@
 import csv
 import random
+import sys
 import pandas as pd
 from player import Team
 from player import Player
@@ -8,8 +9,8 @@ from player import TEAMS
 
 # Maps the player stat the the game grouping
 PLAYER_PROPERTIES = {'penalties_saved' : 'Players who saved a penatly', 'penalties_missed' : 'Players who missed a penalty',
-                      'goals_scored' : 'Players who have scored', 'own_goals' : 'Players who have scored an own goal',
-                      'own_goals': 'Players who have scored an own goal', 'red_cards' : 'Players who have gotten a red card' }
+                      'goals_scored' : 'Players who have scored',  'own_goals': 'Players who have scored an own goal', 
+                      'red_cards' : 'Players who have gotten a red card', 'clean_sheets': 'Players that have kept a clean sheet' }
 
 def define_game(json):
   '''
@@ -72,7 +73,8 @@ def group_players_by_team():
       })
       diff += 1
 
-  define_game(json)
+  #define_game(json)
+  return json
 
 class PlayerData:
   '''
@@ -100,14 +102,17 @@ class PlayerData:
     '''
     pass
 
-if __name__ == '__main__':
+  def parse_news(self):
+    '''
+    Read the 'news' column of the data to try and extract any interesting info
+    '''
+    on_loan = self.df[self.df['news'].str.contains('loan')==True]['second_name']
+    injured = self.df[self.df['news'].str.contains('injury')==True]['second_name']
 
-  # DATA Storage (Basically)
-  player_data = PlayerData()
-
-  # Not enough players have scored hatricks to implement this
-  # hatrick_heros = player_data.get_hatricks()
-
+def get_random_categories(player_data):
+  '''
+  Get the groupings of players by the random categories
+  '''
   json = []
   diff = 1
 
@@ -134,18 +139,35 @@ if __name__ == '__main__':
     # Increase the difficulty
     diff += 1
 
-  print(json)
+  return json
 
 
-  
+if __name__ == '__main__':
 
+  # DATA Storage (Basically)
+  player_data = PlayerData()
 
-  
+  # Go through new source and get common factors
+  # player_data.parse_news()
 
+  # Not enough players have scored hatricks to implement this
+  # hatrick_heros = player_data.get_hatricks()
 
+  args = len(sys.argv)
+  if args == 1:
+    print('enter -help for a list of cmds')
+  res = None
 
+  for i in range(1, args):
+    cmd = sys.argv[i]
+    if cmd == '-teams':
+      res = group_players_by_team()
+    elif cmd == '-random':
+      res = get_random_categories(player_data)
+    elif cmd == '-help':
+      print('Enter -teams for team based game or enter -random for a randomly made game')
+    else:
+      print('Unrecognized command')
 
-
-
-
-  
+  if res is not None:
+    define_game(res)

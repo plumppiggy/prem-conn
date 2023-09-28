@@ -259,3 +259,4 @@ export const test : Group[] = JSON.parse('[{ "difficulty": 1, "category": "West 
 
 export const SEP_21 : Group[] = JSON.parse('[{ "difficulty": 1, "category": "Arsenal", "items": ["Ramsdale","Zinchenko","Rice","Thomas"]},{ "difficulty": 2, "category": "Spurs", "items": ["Bissouma","Davies","Vicario","E.Royal"]},{ "difficulty": 3, "category": "Aston Villa", "items": ["Diego Carlos","McGinn","Bailey","Martinez"]},{ "difficulty": 4, "category": "Bournemouth", "items": ["Billing","Rothwell","Kelly","Aarons"]}]')
 
+export const test2 : Group[] = JSON.parse('[{ "difficulty": 1, "category": "Liverpool", "items": ["Jones","Konaté","Mac Allister","A.Becker"]},{ "difficulty": 2, "category": "Bournemouth", "items": ["Kerkez","Christie","Kelly","Tavernier"]},{ "difficulty": 3, "category": "Man Utd", "items": ["Shaw","Mount","Onana","Hannibal"]},{ "difficulty": 4, "category": "Sheffield Utd", "items": ["Robinson","Baldock","Osula","Ahmedhodžić"]}]')

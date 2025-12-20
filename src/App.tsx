@@ -3,7 +3,7 @@ import './anim.css';
 import { ChakraProvider, Flex, Stack, Heading, Text, Button, HStack, Box, IconButton, Modal} from '@chakra-ui/react';
 import {chunk, shuffle, State, Options, difficultyColours} from './utils/utils';
 import { SEP_9, SEP_12, SEP_13, SEP_14, SEP_15, SEP_16, SEP_17, SEP_18, test, SEP_21, SEP_22, SEP_24, test2} from './utils/games';
-import useMethods from 'use-methods';
+import useMethods from "./hooks/useMethods";
 import {TbRectangleVerticalFilled} from 'react-icons/tb'
 import {BsFillPersonFill, BsTicket} from 'react-icons/bs'
 import HowToPlay from './components/HowToPlay';

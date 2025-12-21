@@ -10,6 +10,9 @@ import HowToPlay from './components/HowToPlay';
 import {GiSoccerBall} from 'react-icons/gi'
 import premLogo from './fpl.png'
 import { useEffect, useState } from 'react';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import Homepage from './components/homepage';
+import ConnectionsGame from './components/connections/connections';
 
 const methods = (state: State) => {
   return {
@@ -99,84 +102,17 @@ function App() {
 
   }
 
+
   return (
-    <>
     <ChakraProvider>
-      <Flex h ='100%' w = '100%' align = 'center' justify='center' style={{padding:'1vh'}}>
-        <Stack spacing={4}>
-          <HStack justifyContent={'center'}>
-            <Heading>
-              Premier League Connections!
-            </Heading>
-            <img height='80px' width='60px' src={premLogo}/>
-          </HStack>
-          
-          <HStack alignContent={'center'} justifyContent={'center'}>
-            <Text>Can you pick the four premier league players with something in common?</Text>
-          </HStack>
-
-          <HStack>
-            <Text>{date}</Text>
-            {oneAway && 
-            <div className='one-away'>
-              <Text>One Away!</Text>
-            </div>
-            }
-            <HowToPlay/>
-            <a href='https://fantasy.premierleague.com/entry/5880685/event/4/'>
-              <IconButton aria-label='fpl team' icon={<GiSoccerBall/>} />
-            </a>
-          </HStack>
-          
-          
-
-          <Stack style={{alignItems:'center'}}>
-            {game.complete.map((group) => (
-              <Stack className='done-group' bg={difficultyColours(group.difficulty)}>
-                <Text className='done-category'>{group.category}</Text>
-                <Text className='done-items'>{group.items.join(',')}</Text>
-              </Stack>
-            ))}
-            
-          {chunk(game.items, 4).map((row) => (
-            <>
-              <HStack>
-                {row.map((item) => (
-                    <Button className={game.wiggleItems.includes(item) ? 'item-button anim' : 'item-button'} _active={{ bg:'#48454d', color:'white' }} onClick={() => game.toggleActive(item)} isActive={game.activeItems.includes(item)}>
-                      {item}
-                  </Button>
-              ))}
-              </HStack>
-            </>
-          ))}
-          </Stack>
-
-        <HStack align='baseline' style={{justifyContent:'center'}}>
-          <Text> Mistakes:</Text> 
-          {[...Array(3 - game.mistakes)].map(() =>
-            <BsFillPersonFill color='grey'/>
-          )}
-          {[...Array(game.mistakes)].map(() =>
-           <TbRectangleVerticalFilled color='red'/>
-          )}
-
-        </HStack>
-        <HStack spacing={4} style={{justifyContent:'center'}}>
-          <Button className='action-button' onClick={game.shuffle}>
-            Shuffle
-          </Button>
-          <Button className='action-button' onClick={game.deselectAll}>
-            Deselect All
-          </Button>
-          <Box as='button' className='chakra-button css-ez23ye action-button' disabled={game.activeItems.length < 4} onClick={submitSelection}>
-            Submit
-          </Box>
-        </HStack>
-      </Stack>
-      </Flex>
+      <BrowserRouter basename='/prem-conn'>
+      <Routes>
+        <Route path='/' element={<Homepage />}>
+        <Route path='connections' element={<ConnectionsGame />} />
+        </Route>
+      </Routes>
+      </BrowserRouter>
     </ChakraProvider>
-    </>
-
   );
 }
 

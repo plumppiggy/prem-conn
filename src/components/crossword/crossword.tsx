@@ -173,12 +173,16 @@ const CrosswordView: FC<Props> = ({structurePath, wordsPath, cluesPath, apiBase 
   }
 
   const moveInDirection = (r: number, c: number, dr: number, dc: number) => {
+    console.log("move in direction")
     let newR = r + dr;
     let newC = c + dc;
     while (newR >= 0 && newR < height && newC >= 0 && newC < width) {
       if (isWhite(newR, newC)) {
+        console.log(`selection ${newC}`)
         setSelectedCell({row: newR, col: newC});
-        inputRefs.current[`${newR}-${newC}`]?.focus();
+        setTimeout(() => {
+          inputRefs.current[`${newR}-${newC}`]?.focus();
+        }, 0)
         return;
       }
       newR += dr;
@@ -187,6 +191,7 @@ const CrosswordView: FC<Props> = ({structurePath, wordsPath, cluesPath, apiBase 
   }
 
   const moveToNextCell = (r: number, c: number) => {
+    console.log(`move to next cell ${direction}`)
     if  (direction === "ACROSS") {
       moveInDirection(r, c, 0, 1);
     } else {
@@ -253,7 +258,7 @@ const CrosswordView: FC<Props> = ({structurePath, wordsPath, cluesPath, apiBase 
                 const isSelected = selectedCell?.row === r && selectedCell?.col === c;
                 const inWord = isInSelectedWord(r, c);
                 const cellNum = getCellNumber(r, c);
-                const key = `${r}=${c}`;
+                const key = `${r}-${c}`;
 
                 return (
                   <div key={key} onClick={() => handleCellClick(r, c)} style={{width: CELL_SIZE, height: CELL_SIZE, background: white ?
@@ -278,7 +283,8 @@ const CrosswordView: FC<Props> = ({structurePath, wordsPath, cluesPath, apiBase 
                         height: "100%",
                         border: "none",
                         textAlign: "center",
-                        textTransform: "uppercase"
+                        textTransform: "uppercase",
+                        background: "transparent"
                       }}/>
                     )}
 

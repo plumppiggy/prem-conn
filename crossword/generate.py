@@ -1,5 +1,6 @@
 import sys
 import copy 
+import random
 
 from crossword import *
 
@@ -215,7 +216,16 @@ class CrosswordCreator():
                     if word[overlap[0]] != neighbour_word[overlap[1]]:
                         choices_eliminated[word] += 1
 
-        return sorted(self.domains[var], key=lambda w: choices_eliminated[w])
+        sorted_words = sorted(self.domains[var], key=lambda w: choices_eliminated[w])
+
+        from itertools import groupby
+        res = []
+        for _, group in groupby(sorted_words, key=lambda w: choices_eliminated[w]):
+            group_list = list(group)
+            random.shuffle(group_list)
+            res.extend(group_list)
+
+        return res
 
     def select_unassigned_variable(self, assignment):
         """
@@ -236,7 +246,7 @@ class CrosswordCreator():
 
         num_deg = {var: len(self.crossword.neighbors(var)) for var in unassigned_vars}
         sorted_num_deg = sorted(num_deg.items(), key=lambda x: x[1])
-        return sorted_num_deg[-1][0]
+        return random.choice([var for var, deg in sorted_num_deg if deg == sorted_num_deg[-1][1]])
 
     def backtrack(self, assignment):
         """

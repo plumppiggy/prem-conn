@@ -22,10 +22,8 @@ type CrosswordResponse = {
 };
 
 type Props = {
-  structurePath: string;
   wordsPath: string;
   apiBase?: string;
-  cluesPath?: string;
 }
 
 type CellNumber = {
@@ -36,7 +34,7 @@ type CellNumber = {
   hasDown: boolean;
 }
 
-const CrosswordView: FC<Props> = ({structurePath, wordsPath, cluesPath, apiBase = ""}) => {
+const CrosswordView: FC<Props> = ({ wordsPath, apiBase = ""}) => {
   const [puzzle, setPuzzle] = useState<CrosswordResponse | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
@@ -48,13 +46,13 @@ const CrosswordView: FC<Props> = ({structurePath, wordsPath, cluesPath, apiBase 
   const inputRefs = useRef<{[key: string]: HTMLInputElement | null}>({});
 
   useEffect(() => {
-    if (!structurePath || !wordsPath) return;
+    if (!wordsPath) return;
     setLoading(true);
     setError(null);
     fetch(`${apiBase}/generate`, {
       method: "POST",
       headers: {"Content-Type": "application/json"},
-      body: JSON.stringify({structure: structurePath, words: wordsPath, clues: cluesPath})
+      body: JSON.stringify({ words: wordsPath})
     }).then(async (res) => {
       const json = (await res.json()) as CrosswordResponse;
       if (!json.ok) {
@@ -69,7 +67,7 @@ const CrosswordView: FC<Props> = ({structurePath, wordsPath, cluesPath, apiBase 
     }).catch((e) => {
       setError(String(e));
     }).finally(() => setLoading(false));
-  }, [structurePath, wordsPath, apiBase]);
+  }, [wordsPath, apiBase]);
 
   if (loading) return <div>Loading crossword...</div>;
   if (error) return <div style={{color:"red"}}> Error: {error} </div>;

@@ -2,6 +2,6 @@ import CrosswordView from "./crossword";
 
 export default function CrosswordPage() {
   return (
-    <CrosswordView structurePath="data/structure0.txt" wordsPath="data/words0.txt" cluesPath="data/clues.json" apiBase="http://localhost:8801"/>
+    <CrosswordView wordsPath="data/words2-filled.txt" apiBase="http://localhost:8801"/>
   );
 }

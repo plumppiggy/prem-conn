@@ -1,4 +1,4 @@
-import { Box, HStack, Stack } from "@chakra-ui/react";
+import { Box, Heading, HStack, Stack, VStack, Text } from "@chakra-ui/react";
 import React, {FC, useEffect, useRef, useState} from "react";
 import { isWithStatement } from "typescript";
 
@@ -8,6 +8,7 @@ type Variable = {
   direction: "ACROSS" | "DOWN";
   length: number;
   word: string;
+  clue: string;
 };
 
 type CrosswordResponse = {
@@ -24,6 +25,7 @@ type Props = {
   structurePath: string;
   wordsPath: string;
   apiBase?: string;
+  cluesPath?: string;
 }
 
 type CellNumber = {
@@ -34,7 +36,7 @@ type CellNumber = {
   hasDown: boolean;
 }
 
-const CrosswordView: FC<Props> = ({structurePath, wordsPath, apiBase = ""}) => {
+const CrosswordView: FC<Props> = ({structurePath, wordsPath, cluesPath, apiBase = ""}) => {
   const [puzzle, setPuzzle] = useState<CrosswordResponse | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
@@ -52,7 +54,7 @@ const CrosswordView: FC<Props> = ({structurePath, wordsPath, apiBase = ""}) => {
     fetch(`${apiBase}/generate`, {
       method: "POST",
       headers: {"Content-Type": "application/json"},
-      body: JSON.stringify({structure: structurePath, words: wordsPath})
+      body: JSON.stringify({structure: structurePath, words: wordsPath, clues: cluesPath})
     }).then(async (res) => {
       const json = (await res.json()) as CrosswordResponse;
       if (!json.ok) {
@@ -97,6 +99,29 @@ const CrosswordView: FC<Props> = ({structurePath, wordsPath, apiBase = ""}) => {
     }
   }
 
+  // CLUES
+  const acrossClues: {number: number; clue: string; answer: string}[] = [];
+  const downClues: {number: number; clue: string; answer: string}[] = [];
+
+  if (puzzle.variables) {
+    puzzle.variables.forEach(v => {
+      const cellNum = cellNumbers.find(cn => cn.row === v.i && cn.col === v.j);
+      if (cellNum) {
+        const clueObj = {
+          number: cellNum.number,
+          clue: v.clue || `(${v.length} letters)`,
+          answer: v.word
+        };
+        if (v.direction === "ACROSS") {
+          acrossClues.push(clueObj);
+        } else {
+          downClues.push(clueObj);
+        }
+      }
+    })
+  }
+
+
   const handleInputChange = (r: number, c: number, value: string) => {
     const upperValue = value.toUpperCase().slice(-1);
 
@@ -123,7 +148,23 @@ const CrosswordView: FC<Props> = ({structurePath, wordsPath, apiBase = ""}) => {
   }
 
   const handleKeyDown = (r: number, c: number, e: React.KeyboardEvent) => {
-    console.log("AHHHH")
+    if (e.key === "ArrowRight") {
+      e.preventDefault();
+      setDirection("ACROSS");
+      moveInDirection(r, c, 0, 1);
+    } else if ((e.key === "Backspace" && !userGrid[r][c]) || e.key == "ArrowLeft") {
+      e.preventDefault();
+      setDirection("ACROSS");
+      moveInDirection(r, c, 0, -1);
+    } else if (e.key === "ArrowDown") {
+      e.preventDefault();
+      setDirection("DOWN");
+      moveInDirection(r, c, 1, 0);
+    } else if (e.key === "ArrowUp") {
+      e.preventDefault();
+      setDirection("DOWN");
+      moveInDirection(r, c, -1, 0);
+    }
   }
 
   const getCellNumber = (r: number, c: number): number | null => {
@@ -248,11 +289,28 @@ const CrosswordView: FC<Props> = ({structurePath, wordsPath, apiBase = ""}) => {
 
               }))
             }
-
-
-
           </div>
         </Box>
+
+        <VStack>
+          <Box>
+            <Heading size="sm" mb={2}>Across</Heading>
+            {acrossClues.sort((a, b) => a.number - b.number).map(c => (
+              <Text key={`across-${c.number}`} fontSize="sm" mb={1}>
+                <strong>{c.number}.</strong> {c.clue}
+              </Text>
+            ))}
+          </Box>
+
+          <Box>
+            <Heading size="sm" mb={2}>Down</Heading>
+            {downClues.sort((a, b) => a.number - b.number).map(c => (
+              <Text key={`down-${c.number}`} fontSize="sm" mb={1}>
+                <strong>{c.number}.</strong> {c.clue}
+              </Text>
+            ))}
+          </Box>
+        </VStack>
       </HStack>
 
     </Stack>

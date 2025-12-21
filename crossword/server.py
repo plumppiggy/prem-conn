@@ -22,6 +22,7 @@ app.add_middleware(
 class CrosswordGenerateRequest(BaseModel):
  structure: str
  words: str
+ clues: Optional[str] = None
  output: Optional[str] = None
 
 @app.post("/generate")
@@ -35,6 +36,15 @@ def generate(req: CrosswordGenerateRequest) -> Dict[str, Any]:
   
   if assignment is None:
     return {"ok": False, "error": "no solution"}
+  
+  clue_map: Dict[str, str] = {}
+  if req.clues:
+    try: 
+      with open(req.clues) as f:
+        clue_map = json.load(f)
+        clue_map = {k.upper(): v for k, v in clue_map.items()}
+    except Exception as e:
+      print(f"Warning: could not load clues from {req.clues}: {e}")
 
   letters = creator.letter_grid(assignment)
 
@@ -45,7 +55,8 @@ def generate(req: CrosswordGenerateRequest) -> Dict[str, Any]:
       "j": var.j,
       "direction": "DOWN" if var.direction == var.DOWN else "ACROSS",
       "length": var.length,
-      "word": word
+      "word": word,
+      "clue": clue_map.get(word.upper(), "Clue not found Lol, try ur best xoxo")
     })
 
   return {

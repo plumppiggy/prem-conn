@@ -2,6 +2,8 @@
 
 This is a fun and simple game deployed here : https://plumppiggy.github.io/prem-conn
 
+The crossword page is in progress.
+
 
 ### Development
 

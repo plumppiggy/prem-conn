@@ -1,15 +1,27 @@
 import './App.css';
 import './anim.css';
 import { ChakraProvider, Flex, Stack, Heading, Text, Button, HStack, Box, IconButton, Modal} from '@chakra-ui/react';
-import {chunk, shuffle, State, Options, difficultyColours} from './utils/utils';
-import { SEP_9, SEP_12, SEP_13, SEP_14, SEP_15, SEP_16, SEP_17, SEP_18, test, SEP_21, SEP_22, SEP_24, test2} from './utils/games';
+import {chunk, shuffle, State, Options, difficultyColours, Group} from './utils/utils';
 import useMethods from 'use-methods';
 import {TbRectangleVerticalFilled} from 'react-icons/tb'
-import {BsFillPersonFill, BsTicket} from 'react-icons/bs'
+import {BsFillPersonFill} from 'react-icons/bs'
 import HowToPlay from './components/HowToPlay';
 import {GiSoccerBall} from 'react-icons/gi'
 import premLogo from './fpl.png'
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
+import gamesDataRaw from './utils/games.json';
+
+
+type GameData = {
+  [date: string]: {groups: Group[]};
+}
+
+const gamesData = gamesDataRaw as GameData;
+
+function getTodayGame() {
+  const today = new Date().toISOString().split('T')[0];
+  return gamesData[today] || gamesData['default'];
+}
 
 const methods = (state: State) => {
   return {
@@ -82,9 +94,7 @@ function App() {
 
   const [oneAway, setOneAway] = useState(false)
   
-  const game = useGame({
-    groups: test2
-  })
+  const game = useGame(getTodayGame())
 
   const date = new Date(Date.now()).toDateString()
 
